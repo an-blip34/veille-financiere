@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veille financière</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+.container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+.header { border-bottom: 2px solid #1a1a1a; padding-bottom: 16px; margin-bottom: 24px; }
+.header h1 { font-size: 24px; font-weight: 700; }
+.header p { font-size: 13px; color: #888; margin-top: 4px; }
+.grid { display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
+.sidebar { background: white; border-radius: 8px; padding: 16px; height: fit-content; border: 1px solid #eee; }
+.sidebar h2 { font-size: 13px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+.filters { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.filter-btn { padding: 8px 12px; border-radius: 20px; border: 1px solid #ddd; background: white; color: #555; cursor: pointer; font-size: 13px; text-align: left; transition: all 0.15s; }
+.filter-btn.active { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+.main { display: flex; flex-direction: column; gap: 20px; }
+.theme-block { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
+.theme-header { padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+.theme-count { font-size: 12px; opacity: 0.8; }
+.article-item { padding: 10px 16px; border-top: 1px solid #f0f0f0; display: flex; align-items: flex-start; gap: 10px; }
+.article-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.article-link { font-size: 13px; color: #1a1a1a; text-decoration: none; line-height: 1.4; font-weight: 500; }
+.article-link:hover { text-decoration: underline; }
+.article-resume { font-size: 11px; color: #888; margin-top: 3px; }
+.article-meta { font-size: 11px; color: #aaa; margin-top: 3px; }
+.importance { font-size: 12px; margin-left: auto; flex-shrink: 0; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Veille financière</h1>
+    <p>vendredi 3 avril 2026 — 10 articles analysés</p>
+  </div>
+  <div class="grid">
+    <div class="sidebar">
+      <h2>Filtrer</h2>
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="all">Tous (10)</button>
+        <button class="filter-btn" data-filter="Énergie" style="border-left: 3px solid #BA7517;">Énergie (3)</button><button class="filter-btn" data-filter="Entreprises" style="border-left: 3px solid #7F77DD;">Entreprises (5)</button><button class="filter-btn" data-filter="Macro-économie" style="border-left: 3px solid #639922;">Macro-économie (1)</button><button class="filter-btn" data-filter="Fiscalité" style="border-left: 3px solid #888780;">Fiscalité (1)</button>
+      </div>
+      <h2 style="margin-bottom:16px;">Répartition</h2>
+      
+    <div style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:12px;font-weight:600;color:#633806;">Énergie</span>
+        <span style="font-size:12px;color:#888;">3 articles</span>
+      </div>
+      <div style="background:#f0f0f0;border-radius:3px;height:6px;">
+        <div style="background:#BA7517;width:30%;height:6px;border-radius:3px;"></div>
+      </div>
+    </div>
+  
+    <div style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:12px;font-weight:600;color:#3C3489;">Entreprises</span>
+        <span style="font-size:12px;color:#888;">5 articles</span>
+      </div>
+      <div style="background:#f0f0f0;border-radius:3px;height:6px;">
+        <div style="background:#7F77DD;width:50%;height:6px;border-radius:3px;"></div>
+      </div>
+    </div>
+  
+    <div style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:12px;font-weight:600;color:#27500A;">Macro-économie</span>
+        <span style="font-size:12px;color:#888;">1 articles</span>
+      </div>
+      <div style="background:#f0f0f0;border-radius:3px;height:6px;">
+        <div style="background:#639922;width:10%;height:6px;border-radius:3px;"></div>
+      </div>
+    </div>
+  
+    <div style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:12px;font-weight:600;color:#444441;">Fiscalité</span>
+        <span style="font-size:12px;color:#888;">1 articles</span>
+      </div>
+      <div style="background:#f0f0f0;border-radius:3px;height:6px;">
+        <div style="background:#888780;width:10%;height:6px;border-radius:3px;"></div>
+      </div>
+    </div>
+  
+    </div>
+    <div class="main" id="articles"></div>
+  </div>
+</div>
+<script>
+const data = [{"titre":"Guerre au moyen orient les profits exceptionnels des tradeurs de totalenergies","lien":"https://www.lemonde.fr/economie/article/2026/04/02/guerre-au-moyen-orient-les-profits-exceptionnels-des-tradeurs-de-totalenergies_6676110_3234.html","source":"Le Monde - Économie","date":"2026-04-02","theme":"Énergie","resume":"TotalEnergies réalise des profits exceptionnels grâce au trading pendant la guerre au Moyen-Orient.","importance":3},{"titre":"Comment se forment les prix du petrole offre demande speculation","lien":"https://www.lemonde.fr/economie/article/2026/04/03/comment-se-forment-les-prix-du-petrole-offre-demande-speculation_6676346_3234.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Énergie","resume":"Les prix du pétrole résultent de l'offre, la demande et la spéculation.","importance":2},{"titre":"Les marins de l armateur francais bourbon pris au piege du detroit d ormuz","lien":"https://www.lemonde.fr/economie/article/2026/04/03/les-marins-de-l-armateur-francais-bourbon-pris-au-piege-du-detroit-d-ormuz_6676351_3234.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Entreprises","resume":"Des marins de l'armateur Bourbon sont bloqués dans le détroit d'Ormuz.","importance":2},{"titre":"Cirque demarche politique l audition electrique de xavier niel et matthieu pigasse devant la commission d enquete sur l audiovisuel public","lien":"https://www.lemonde.fr/economie/article/2026/04/02/cirque-demarche-politique-l-audition-electrique-de-xavier-niel-et-matthieu-pigasse-devant-la-commission-d-enquete-sur-l-audiovisuel-public_6676190_3234.html","source":"Le Monde - Économie","date":"2026-04-02","theme":"Entreprises","resume":"Audition de Xavier Niel et Matthieu Pigasse sur l'audiovisuel public devant commission d'enquête.","importance":2},{"titre":"Pour le transport ferroviaire des semaines decisives avant une loi fixant le financement de la renovation d infrastructures vieillissantes","lien":"https://www.lemonde.fr/economie/article/2026/04/03/pour-le-transport-ferroviaire-des-semaines-decisives-avant-une-loi-fixant-le-financement-de-la-renovation-d-infrastructures-vieillissantes_6676371_3234.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Entreprises","resume":"Loi à venir sur le financement de la rénovation des infrastructures ferroviaires vieillissantes","importance":2},{"titre":"Elon musk l entrepreneur antiwoke et messianique","lien":"https://www.lemonde.fr/economie/article/2026/04/03/elon-musk-l-entrepreneur-antiwoke-et-messianique_6676366_3234.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Entreprises","resume":"Portrait d'Elon Musk comme entrepreneur aux positions antiwoke et vision messianique.","importance":2},{"titre":"La proposition de thierry breton d un deficit public a 1 du pib francais prive toute capacite a repondre a un choc ou faciliter la transformation de la societe","lien":"https://www.lemonde.fr/idees/article/2026/04/03/la-proposition-de-thierry-breton-d-un-deficit-public-a-1-du-pib-francais-prive-toute-capacite-a-repondre-a-un-choc-ou-faciliter-la-transformation-de-la-societe_6676367_3232.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Macro-économie","resume":"La proposition de déficit à 1% limiterait la capacité de réponse aux chocs économiques.","importance":2},{"titre":"Carburants le gouvernement evalue les surplus fiscaux percus par l etat en mars a 270 millions d euros","lien":"https://www.lemonde.fr/economie/article/2026/04/03/carburants-le-gouvernement-evalue-les-surplus-fiscaux-percus-par-l-etat-en-mars-a-270-millions-d-euros_6676364_3234.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Fiscalité","resume":"L'État a perçu 270 millions d'euros de surplus fiscaux sur les carburants en mars.","importance":2},{"titre":"Easyjet appelle les hotesses et les stewards a la greve en france le 6 avril lundi de paques","lien":"https://www.lemonde.fr/economie/article/2026/04/03/easyjet-appelle-les-hotesses-et-les-stewards-a-la-greve-en-france-le-6-avril-lundi-de-paques_6676359_3234.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Entreprises","resume":"Grève du personnel de cabine Easyjet en France le lundi de Pâques.","importance":2},{"titre":"Donald trump rend un service involontaire mais considerable a la transition energetique","lien":"https://www.lemonde.fr/idees/article/2026/04/03/donald-trump-rend-un-service-involontaire-mais-considerable-a-la-transition-energetique_6676339_3232.html","source":"Le Monde - Économie","date":"2026-04-03","theme":"Énergie","resume":"Les actions de Trump accélèrent paradoxalement la transition énergétique mondiale.","importance":2}];
+const couleurs = {"Énergie":{"bg":"#FAEEDA","border":"#BA7517","text":"#633806","dot":"#BA7517"},"Marchés":{"bg":"#E6F1FB","border":"#378ADD","text":"#0C447C","dot":"#378ADD"},"Entreprises":{"bg":"#EEEDFE","border":"#7F77DD","text":"#3C3489","dot":"#7F77DD"},"Macro-économie":{"bg":"#EAF3DE","border":"#639922","text":"#27500A","dot":"#1D9E75"},"Fiscalité":{"bg":"#F1EFE8","border":"#888780","text":"#444441","dot":"#888780"}};
+
+function importance(n) {
+  return '●'.repeat(n) + '○'.repeat(3 - n);
+}
+
+function render(filter) {
+  const filtered = filter === 'all' ? data : data.filter(a => (a.theme || 'Macro-économie') === filter);
+  const parTheme = {};
+  for (const a of filtered) {
+    const t = a.theme || 'Macro-économie';
+    if (!parTheme[t]) parTheme[t] = [];
+    parTheme[t].push(a);
+  }
+  const container = document.getElementById('articles');
+  container.innerHTML = Object.entries(parTheme).map(([theme, arts]) => {
+    const c = couleurs[theme] || couleurs['Macro-économie'];
+    const lignes = arts.sort((a, b) => (b.importance || 0) - (a.importance || 0)).map(a => `
+      <div class="article-item">
+        <div class="article-dot" style="background:${c.dot};"></div>
+        <div style="flex:1;">
+          <a class="article-link" href="${a.lien}" target="_blank">${a.titre}</a>
+          <div class="article-resume">${a.resume || ''}</div>
+          <div class="article-meta">${a.source || ''}</div>
+        </div>
+        <div class="importance" style="color:${c.text};">${importance(a.importance || 1)}</div>
+      </div>
+    `).join('');
+    return `
+      <div class="theme-block">
+        <div class="theme-header" style="background:${c.bg};border-left:4px solid ${c.border};">
+          <span style="font-size:14px;font-weight:700;color:${c.text};">${theme}</span>
+          <span class="theme-count" style="color:${c.text};">${arts.length} article${arts.length > 1 ? 's' : ''}</span>
+        </div>
+        ${lignes}
+      </div>
+    `;
+  }).join('');
+}
+
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render(btn.dataset.filter);
+});
+
+render('all');
+</script>
+</body>
+</html>
