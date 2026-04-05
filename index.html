@@ -45,19 +45,19 @@ body{font-family:Arial,sans-serif}
 <div class="mc">
   <div class="header">
     <div class="title">Veille financière</div>
-    <div class="subtitle">dimanche 5 avril 2026 — 0 articles analysés</div>
+    <div class="subtitle">dimanche 5 avril 2026 — 2 articles analysés</div>
   </div>
   <div class="top-metrics">
     <div class="metric">
       <div class="metric-label">Sources</div>
-      <div class="source-list"></div>
+      <div class="source-list"><div class="source-item"><div class="source-dot"></div>Valeurs Actuelles - Économie</div></div>
     </div>
     <div class="metric">
       <div class="metric-label">Répartition thèmes</div>
-      
+      <div class="rep-row"><span class="rep-name" style="color:#22c55e">Macro-économie</span><div class="rep-bar-wrap"><div class="rep-bar" style="width:100%;background:#22c55e"></div></div><span class="rep-count">1</span></div><div class="rep-row"><span class="rep-name" style="color:#888780">Fiscalité</span><div class="rep-bar-wrap"><div class="rep-bar" style="width:100%;background:#888780"></div></div><span class="rep-count">1</span></div>
     </div>
   </div>
-  <div class="filter-pills" id="pills"><div class="pill" data-f="all" data-color="#fff" style="color:#fff;border-color:#ffffff44;background:#ffffff11">Tous (0)</div></div>
+  <div class="filter-pills" id="pills"><div class="pill" data-f="Macro-économie" data-color="#22c55e" style="color:#22c55e;border-color:#22c55e44;background:#22c55e11">Macro-économie (1)</div><div class="pill" data-f="Fiscalité" data-color="#888780" style="color:#888780;border-color:#88878044;background:#88878011">Fiscalité (1)</div><div class="pill" data-f="all" data-color="#fff" style="color:#fff;border-color:#ffffff44;background:#ffffff11">Tous (2)</div></div>
   <div class="articles-section">
     <div class="section-header">
       <span class="section-title">Articles</span>
@@ -67,7 +67,7 @@ body{font-family:Arial,sans-serif}
   </div>
 </div>
 <script>
-const data = [];
+const data = [{"titre":"Le déficit en légère baisse, Masa groupe racheté… Les coulisses de l'éco de la semaine","lien":"https://www.valeursactuelles.com/clubvaleurs/economie/le-deficit-en-legere-baisse-masa-groupe-rachete-les-coulisses-de-leco-de-la-semaine","source":"Valeurs Actuelles - Économie","date":"2026-04-03","theme":"Macro-économie","resume":"La France affiche un déficit public à 5,1 % du PIB en 2025, un résultat supérieur aux anticipations malgré les annonces positives du gouvernement. Toutefois, l'augmentation persistante des dépenses publiques, le coût élevé des prestations sociales et un endettement atteignant 115,6 % du PIB alimentent les préoccupations sur la soutenabilité budgétaire du pays."},{"titre":"Saisies records de tabac : peines avec sursis et pertes en milliards","lien":"https://www.valeursactuelles.com/clubvaleurs/economie/saisies-records-de-tabac-peines-avec-sursis-et-pertes-en-milliards","source":"Valeurs Actuelles - Économie","date":"2026-04-03","theme":"Fiscalité","resume":"Plusieurs villes françaises connaissent une multiplication des interceptions de cigarettes illégales. La fiscalité élevée sur les produits du tabac, combinée à une réponse pénale jugée insuffisante, favorise le développement du commerce parallèle et génère des pertes considérables pour les finances publiques."}];
 const couleurs = {"Énergie":{"hex":"#f59e0b"},"Marchés":{"hex":"#38bdf8"},"Entreprises":{"hex":"#818cf8"},"Macro-économie":{"hex":"#22c55e"},"Fiscalité":{"hex":"#888780"}};
 
 function render(filter) {
